@@ -23,4 +23,9 @@
     apt:
       name: git
     become: true
+  - name: add Jenkins user to docker group
+    user:
+      name: jenkins
+      groups: docker
+    become: true
 ...
