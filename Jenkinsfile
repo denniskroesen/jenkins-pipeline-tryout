@@ -16,7 +16,7 @@ pipeline {
     stage('Inspect') {
       agent {
         docker {
-          image 'sonarcube:6.3.1-alpine'
+          image 'sonarqube:6.3.1-alpine'
           args  '-p 9000:9000 -p 9092:9092'
         }
       }
