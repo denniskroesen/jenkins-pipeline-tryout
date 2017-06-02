@@ -1,0 +1,26 @@
+---
+- hosts: jenkins
+  roles:
+  - role: ypsman.docker
+    become: true
+  tasks:
+  - name: Add Jenkins keyfile
+    apt_key:
+      url: "https://pkg.jenkins.io/debian/jenkins-ci.org.key"
+      state: present
+    become: true
+  - name: Add Jenkins stable APT repository
+    apt_repository:
+      repo: "deb http://pkg.jenkins.io/debian-stable binary/"
+      state: present
+    become: true
+  - name: Verify Jenkins installation
+    apt:
+      name: jenkins
+      update_cache: yes
+    become: true 
+  - name: Verify GIT installation
+    apt:
+      name: git
+    become: true
+...
