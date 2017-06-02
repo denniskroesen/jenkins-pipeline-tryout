@@ -13,5 +13,16 @@ pipeline {
         sh 'mvn clean package'
       }
     }
+    stage('Inspect') {
+      agent {
+        docker {
+          image 'sonarcube:alpine'
+          args  '-p 9000:9000 -p 9092:9092'
+        }
+      }
+      steps {
+        sh 'mvn sonar:sonar'
+      }
+    }
   }
 } //End pipeline
