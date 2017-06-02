@@ -16,8 +16,12 @@
     become: true
   - name: Verify Jenkins installation
     apt:
-      name: jenkins
+      name: '{{ item  }}'
       update_cache: yes
+    with_items:
+    - jenkins
+    - python-jenkins
+    - python-lxml
     become: true 
   - name: Verify GIT installation
     apt:
@@ -27,5 +31,20 @@
     user:
       name: jenkins
       groups: docker
+    become: true
+    notify: Jenkins Restart
+  - name: Configure git checkout job
+    jenkins_job:
+     config: "{{ lookup('file', 'templates/config.xml') }}"
+     name: InitialPipelineJob	
+     password: gD4nvmDMcJcQ7qL3RfomzXTFV
+     url: http://192.168.33.99:8080
+     user: dennis
+
+  handlers:
+  - name: Jenkins Restart
+    service:
+      name: jenkins
+      status: restarted
     become: true
 ...
