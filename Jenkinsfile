@@ -10,14 +10,25 @@ pipeline {
       }
 
       steps {
+        checkout scm
         sh 'mvn clean package'
       }
     }
+
+    stage('Test') {
+      steps {
+        /* `make check` returns non-zero on test failures,
+         * using `true` to allow the Pipeline to continue nonetheless
+         */
+        sh 'make check || true'
+        junit '**/target/*.xml'
+      }
+    }
+
     stage('Inspect') {
       agent {
         docker {
-          image 'sonarqube:6.3.1-alpine'
-          args  '-p 9000:9000 -p 9092:9092'
+          image 'maven:3-alpine'
         }
       }
       steps {
