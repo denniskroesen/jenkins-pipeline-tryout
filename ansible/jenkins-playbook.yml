@@ -40,7 +40,19 @@
      password: gD4nvmDMcJcQ7qL3RfomzXTFV
      url: http://192.168.33.99:8080
      user: dennis
-
+  - name: Verify Python-Py for docker modules
+    pip:
+      name: docker-py
+    become: true
+  - name: Start a sonarqube container
+    docker_container:
+      name: sonarcube
+      image: sonarqube:6.3.1-alpine
+      state: started
+      ports:
+      - "9000:9000"
+      - "9092:9092"
+    become: true
   handlers:
   - name: Jenkins Restart
     service:
