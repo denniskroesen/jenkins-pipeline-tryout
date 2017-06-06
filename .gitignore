@@ -53,3 +53,5 @@ nbdist/
 src/main/resources/static/
 src/main/resources/templates/
 src/test/resources/
+!/src/test/resources/
+/ansible/.vagrant/machines/jenkins/virtualbox/action_set_name
